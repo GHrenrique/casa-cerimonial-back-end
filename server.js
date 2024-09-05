@@ -90,6 +90,23 @@ app.put('/admin/plans/:id', authenticate, async (req, res) => {
     }
 });
 
+// Rota para deletar um plano pelo ID
+app.delete('/admin/plans/:id', authenticate, async (req, res) => {
+    const { id } = req.params;  // Pegando o ID do plano a ser deletado
+
+    try {
+        const deletedPlan = await Plan.findByIdAndDelete(id);  // Deleta o plano pelo ID
+
+        if (!deletedPlan) {
+            return res.status(404).json({ message: 'Plano não encontrado' });
+        }
+
+        res.json({ message: 'Plano deletado com sucesso', deletedPlan });
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao deletar o plano', error });
+    }
+});
+
 // Rota para deletar todos os planos
 app.delete('/admin/plans', authenticate, async (req, res) => {
     try {
