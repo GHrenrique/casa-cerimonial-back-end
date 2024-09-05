@@ -1,0 +1,103 @@
+# Node.js
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.pnpm-debug.log*
+.pnpm-store/
+
+# Logs
+logs
+*.log
+logs/*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directories by testing tools
+coverage
+.nyc_output
+out
+report
+test-reports
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Build files
+dist/
+build/
+.cache/
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/jsconfig.json
+.vscode/extensions.json
+
+# Dependency directories
+jspm_packages/
+
+# Misc
+*.tgz
+.lock-wscript
+.babel.json
+.yarn-integrity
+*.tsbuildinfo
+
+# Angular-specific (se você estiver usando Angular)
+.angular/
+.angular-cache/
+
+# SASS cache
+.sass-cache/
+
+# Next.js
+.next/
+out/
+
+# Parcel
+.cache
+.parcel-cache
+
+# React Native
+.expo/
+web-build/
+*.xcodeproj
+*.xcworkspace
+
+# VSCode exclusions
+.history/
+.vscode/
+
+# Hides production environment config files
+prod.env
+
+# JetBrains
+.idea/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/dictionaries
+.idea/**/jsLibraryMappings.xml

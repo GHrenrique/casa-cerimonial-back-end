@@ -1,0 +1,66 @@
+[
+    {
+        "username": "admin",
+        "password": "admin123",
+        "id": 1,
+        "title": "Cremação Individual Premium",
+        "services": [
+            "Remoção",
+            "Cerimônia de Despedida",
+            "Urna à escolha: Cerâmica hidrossolúvel, madeira ou cerâmica com madeira",
+            "Devolução das cinzas em no máximo 15 dias",
+            "Mecha de pelo"
+        ],
+        "price": 1450,
+        "installments": "Em até 6x",
+        "pixPrice": "À vista no Pix: R$1.305,00"
+    },
+    {
+        "username": "admin",
+        "password": "admin123",
+        "id": 2,
+        "title": "Cremação Individual Clássica",
+        "services": [
+            "Remoção",
+            "Cerimônia de Despedida",
+            "Urna à escolha: Cerâmica hidrossolúvel, madeira ou cerâmica com madeira",
+            "Devolução das cinzas em no máximo 15 dias",
+            "Mecha de pelo"
+        ],
+        "price": 1450,
+        "installments": "Em até 6x",
+        "pixPrice": "À vista no Pix: R$1.305,00"
+    },
+    {
+        "username": "admin",
+        "password": "admin123",
+        "id": 3,
+        "title": "Cremação Individual Clássica",
+        "services": [
+            "Remoção",
+            "Cerimônia de Despedida",
+            "Urna à escolha: Cerâmica hidrossolúvel, madeira ou cerâmica com madeira",
+            "Devolução das cinzas em no máximo 15 dias",
+            "Mecha de pelo"
+        ],
+        "price": 1450,
+        "installments": "Em até 6x",
+        "pixPrice": "À vista no Pix: R$1.305,00"
+    },
+    {
+        "username": "admin",
+        "password": "admin123",
+        "id": 4,
+        "title": "Cremação Individual Clássica",
+        "services": [
+            "Remoção",
+            "Cerimônia de Despedida",
+            "Urna à escolha: Cerâmica hidrossolúvel, madeira ou cerâmica com madeira",
+            "Devolução das cinzas em no máximo 15 dias",
+            "Mecha de pelo"
+        ],
+        "price": 1450,
+        "installments": "Em até 6x",
+        "pixPrice": "À vista no Pix: R$1.305,00"
+    }
+]
