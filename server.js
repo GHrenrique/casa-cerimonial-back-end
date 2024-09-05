@@ -1,21 +1,30 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const fs = require('fs');
-const path = require('path');
 const cors = require('cors');
-
+const mongoose = require('mongoose');
+const Plan = require('./models/Plan'); // Importando o modelo Plan
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-
-
 
 // Middleware para tratar requisições JSON
 app.use(bodyParser.json());
 
 // Habilitar CORS
 app.use(cors());
+
+// Usar a variável de ambiente MONGODB_URI no Vercel ou uma URL local para desenvolvimento
+const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/meubancodedados";
+
+mongoose.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
+    console.log('Conectado ao MongoDB Atlas');
+}).catch((error) => {
+    console.error('Erro ao conectar ao MongoDB Atlas', error);
+});
+
 // Mock de usuário e senha
 const USERNAME = 'admin';
 const PASSWORD = 'admin123';
@@ -30,67 +39,58 @@ const authenticate = (req, res, next) => {
     }
 };
 
-// Carregar dados dos planos
-const getPlans = () => {
-    const dataPath = path.join(__dirname, 'data', 'plans.json');
-    if (fs.existsSync(dataPath)) {
-        const plansData = fs.readFileSync(dataPath);
-        return JSON.parse(plansData);
-    }
-    return [];
-};
-
-// Salvar dados dos planos
-const savePlans = (plans) => {
-    const dataPath = path.join(__dirname, 'data', 'plans.json');
-    fs.writeFileSync(dataPath, JSON.stringify(plans, null, 2));
-};
-
 // Rota para login
 app.post('/login', authenticate, (req, res) => {
-    console.log(req.body); // Para debug
     res.json({ message: 'Login bem-sucedido' });
 });
 
 // Rota para listar planos
-app.get('/admin/plans', (req, res) => {
-    const plans = getPlans();
-    res.json(plans);
+app.get('/admin/plans', authenticate, async (req, res) => {
+    try {
+        const plans = await Plan.find(); // Buscar todos os planos do MongoDB
+        res.json(plans);
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao buscar os planos', error });
+    }
 });
 
 // Rota para adicionar um novo plano
-app.post('/admin/plans', authenticate, (req, res) => {
-    const newPlan = req.body;
-    let plans = getPlans();
+app.post('/admin/plans', authenticate, async (req, res) => {
+    const { title, services, price, installments, pixPrice } = req.body;
 
-    // Verificar se o plano já existe pelo ID
-    const planExists = plans.find(plan => plan.id === newPlan.id);
-    if (planExists) {
-        return res.status(400).json({ message: 'Plano com este ID já existe' });
+    // Validação simples
+    if (!title || !services || !price || !installments || !pixPrice) {
+        return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
     }
 
-    // Adiciona o novo plano
-    plans.push(newPlan);
-    savePlans(plans);
-    res.json({ message: 'Plano cadastrado com sucesso', plans });
+    try {
+        const newPlan = new Plan({ title, services, price, installments, pixPrice });
+        await newPlan.save(); // Salvando o novo plano no MongoDB
+        res.json({ message: 'Plano cadastrado com sucesso', newPlan });
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao salvar o plano', error });
+    }
 });
 
 // Rota para editar um plano
-app.put('/admin/plans/:id', authenticate, (req, res) => {
+app.put('/admin/plans/:id', authenticate, async (req, res) => {
     const { id } = req.params;
-    const updatedPlan = req.body;
-    let plans = getPlans();
+    const { title, services, price, installments, pixPrice } = req.body;
 
-    const planIndex = plans.findIndex((plan) => plan.id === parseInt(id));
-    if (planIndex !== -1) {
-        plans[planIndex] = { ...plans[planIndex], ...updatedPlan };
-        savePlans(plans);
-        res.json({ message: 'Plano atualizado com sucesso', plans });
-    } else {
-        res.status(404).json({ message: 'Plano não encontrado' });
+    try {
+        const updatedPlan = await Plan.findByIdAndUpdate(id, { title, services, price, installments, pixPrice }, { new: true });
+
+        if (!updatedPlan) {
+            return res.status(404).json({ message: 'Plano não encontrado' });
+        }
+
+        res.json({ message: 'Plano atualizado com sucesso', updatedPlan });
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao atualizar o plano', error });
     }
 });
+
+// Inicializa o servidor
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
-  });
-  
+});
