@@ -90,6 +90,17 @@ app.put('/admin/plans/:id', authenticate, async (req, res) => {
     }
 });
 
+// Rota para deletar todos os planos
+app.delete('/admin/plans', authenticate, async (req, res) => {
+    try {
+        await Plan.deleteMany(); // Deleta todos os documentos da coleção de planos
+        res.json({ message: 'Todos os planos foram deletados' });
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao deletar os planos', error });
+    }
+});
+
+
 // Inicializa o servidor
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
