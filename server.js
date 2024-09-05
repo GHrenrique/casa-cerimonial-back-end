@@ -48,6 +48,9 @@ app.post('/login', authenticate, (req, res) => {
 app.get('/admin/plans', authenticate, async (req, res) => {
     try {
         const plans = await Plan.find(); // Buscar todos os planos do MongoDB
+        if (!plans.length) {
+            return res.status(404).json({ message: 'Nenhum plano encontrado' });
+        }
         res.json(plans);
     } catch (error) {
         res.status(500).json({ message: 'Erro ao buscar os planos', error });
