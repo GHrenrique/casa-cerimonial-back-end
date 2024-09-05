@@ -6,7 +6,10 @@ const cors = require('cors');
 
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
+
+
 
 // Middleware para tratar requisições JSON
 app.use(bodyParser.json());
@@ -87,8 +90,7 @@ app.put('/admin/plans/:id', authenticate, (req, res) => {
         res.status(404).json({ message: 'Plano não encontrado' });
     }
 });
-
-// Iniciando o servidor
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
-});
+  });
+  
