@@ -29,11 +29,9 @@ mongoose.connect(uri, {
 const USERNAME = 'admin';
 const PASSWORD = 'admin123';
 
-// Middleware de autenticação ajustado para aceitar credenciais via cabeçalho
+// Verificação de login
 const authenticate = (req, res, next) => {
-    const username = req.headers['username'];
-    const password = req.headers['password'];
-
+    const { username, password } = req.body;
     if (username === USERNAME && password === PASSWORD) {
         next();
     } else {
