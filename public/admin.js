@@ -46,7 +46,7 @@ document.getElementById('planForm').addEventListener('submit', async function (e
     }
 });
 
-
+// Função para buscar e exibir os planos cadastrados
 async function fetchPlans() {
     const response = await fetch('https://casa-cerimonial-back-end.vercel.app/admin/plans');
     const plans = await response.json();
