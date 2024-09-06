@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const path = require('path');
 const Plan = require('./models/Plan'); // Importando o modelo Plan
 
 const app = express();
@@ -12,6 +13,9 @@ app.use(bodyParser.json());
 
 // Habilitar CORS
 app.use(cors());
+
+// Servir arquivos estáticos da pasta 'public'
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Usar a variável de ambiente MONGODB_URI no Vercel ou uma URL local para desenvolvimento
 const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/meubancodedados";
