@@ -17,6 +17,7 @@
     <div class="container my-5">
         <h2>Cadastrar Planos</h2>
         <form id="planForm" class="mt-4">
+            <input type="hidden" id="planId"> <!-- Campo oculto para armazenar o ID do plano ao editar -->
             <div class="mb-3">
                 <label for="title" class="form-label">Título do Plano</label>
                 <input type="text" class="form-control" id="title" required>
@@ -37,7 +38,7 @@
                 <label for="pixPrice" class="form-label">Preço no Pix</label>
                 <input type="number" class="form-control" id="pixPrice" required>
             </div>
-            <button type="submit" class="btn btn-primary">Cadastrar Plano</button>
+            <button type="submit" class="btn btn-primary">Salvar Plano</button>
         </form>
 
         <div class="mt-5">

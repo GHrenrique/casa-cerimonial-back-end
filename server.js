@@ -42,6 +42,21 @@ app.get('/admin/plans', async (req, res) => {
     }
 });
 
+// Rota para buscar um plano específico pelo ID (sem autenticação)
+app.get('/admin/plans/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const plan = await Plan.findById(id); // Busca o plano pelo ID
+        if (!plan) {
+            return res.status(404).json({ message: 'Plano não encontrado' });
+        }
+        res.json(plan);
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao buscar o plano', error });
+    }
+});
+
 // Rota para adicionar um novo plano (sem autenticação)
 app.post('/admin/plans', async (req, res) => {
     const { title, services, price, installments, pixPrice } = req.body;
@@ -95,7 +110,7 @@ app.delete('/admin/plans/:id', async (req, res) => {
     }
 });
 
-// Rota para deletar todos os planos (sem autenticação)
+// Rota para deletar todos os planos
 app.delete('/admin/plans', async (req, res) => {
     try {
         await Plan.deleteMany(); // Deleta todos os documentos da coleção de planos
