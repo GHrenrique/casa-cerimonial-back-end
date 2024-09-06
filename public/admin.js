@@ -1,4 +1,4 @@
-document.getElementById('planForm').addEventListener('submit', async function(event) {
+document.getElementById('planForm').addEventListener('submit', async function (event) {
     event.preventDefault();
 
     const planId = document.getElementById('planId').value; // ID do plano (caso seja edição)
@@ -58,12 +58,13 @@ async function fetchPlans() {
         const li = document.createElement('li');
         li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
         li.innerHTML = `
-            ${plan.title} - R$${plan.price}
-            <div>
-                <button class="btn btn-warning btn-sm me-2" onclick="editPlan('${plan._id}')">Editar</button>
-                <button class="btn btn-danger btn-sm" onclick="deletePlan('${plan._id}')">Deletar</button>
-            </div>
-        `;
+        ${plan.title} - R$${plan.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+        <div>
+            <button class="btn btn-warning btn-sm me-2" onclick="editPlan('${plan._id}')">Editar</button>
+            <button class="btn btn-danger btn-sm" onclick="deletePlan('${plan._id}')">Deletar</button>
+        </div>
+    `;
+
         plansList.appendChild(li);
     });
 }
@@ -103,6 +104,15 @@ async function deletePlan(planId) {
         }
     }
 }
+
+document.getElementById('pixPrice').addEventListener('input', function(e) {
+    var value = e.target.value.replace(/\D/g, ''); // Remove qualquer caractere que não seja número
+    value = (value / 100).toFixed(2); // Converte o valor para número com 2 casas decimais
+    value = value.replace(".", ","); // Troca o ponto decimal por vírgula
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Adiciona pontos como separador de milhar
+    e.target.value = value;
+});
+
 
 // Carrega os planos ao carregar a página
 window.onload = fetchPlans;
