@@ -25,27 +25,8 @@ mongoose.connect(uri, {
     console.error('Erro ao conectar ao MongoDB Atlas', error);
 });
 
-// Mock de usuário e senha
-const USERNAME = 'admin';
-const PASSWORD = 'admin123';
-
-// Verificação de login
-const authenticate = (req, res, next) => {
-    const { username, password } = req.body;
-    if (username === USERNAME && password === PASSWORD) {
-        next();
-    } else {
-        res.status(401).json({ message: 'Login inválido' });
-    }
-};
-
-// Rota para login
-app.post('/login', authenticate, (req, res) => {
-    res.json({ message: 'Login bem-sucedido' });
-});
-
-// Rota para listar planos
-app.get('/admin/plans', authenticate, async (req, res) => {
+// Rota para listar planos (sem autenticação)
+app.get('/admin/plans', async (req, res) => {
     try {
         const plans = await Plan.find(); // Buscar todos os planos do MongoDB
         if (!plans.length) {
@@ -57,8 +38,8 @@ app.get('/admin/plans', authenticate, async (req, res) => {
     }
 });
 
-// Rota para adicionar um novo plano
-app.post('/admin/plans', authenticate, async (req, res) => {
+// Rota para adicionar um novo plano (sem autenticação)
+app.post('/admin/plans', async (req, res) => {
     const { title, services, price, installments, pixPrice } = req.body;
 
     // Validação simples
@@ -75,8 +56,8 @@ app.post('/admin/plans', authenticate, async (req, res) => {
     }
 });
 
-// Rota para editar um plano
-app.put('/admin/plans/:id', authenticate, async (req, res) => {
+// Rota para editar um plano (sem autenticação)
+app.put('/admin/plans/:id', async (req, res) => {
     const { id } = req.params;
     const { title, services, price, installments, pixPrice } = req.body;
 
@@ -93,8 +74,8 @@ app.put('/admin/plans/:id', authenticate, async (req, res) => {
     }
 });
 
-// Rota para deletar um plano pelo ID
-app.delete('/admin/plans/:id', authenticate, async (req, res) => {
+// Rota para deletar um plano pelo ID (sem autenticação)
+app.delete('/admin/plans/:id', async (req, res) => {
     const { id } = req.params;  // Pegando o ID do plano a ser deletado
 
     try {
@@ -110,8 +91,8 @@ app.delete('/admin/plans/:id', authenticate, async (req, res) => {
     }
 });
 
-// Rota para deletar todos os planos
-app.delete('/admin/plans', authenticate, async (req, res) => {
+// Rota para deletar todos os planos (sem autenticação)
+app.delete('/admin/plans', async (req, res) => {
     try {
         await Plan.deleteMany(); // Deleta todos os documentos da coleção de planos
         res.json({ message: 'Todos os planos foram deletados' });
@@ -119,7 +100,6 @@ app.delete('/admin/plans', authenticate, async (req, res) => {
         res.status(500).json({ message: 'Erro ao deletar os planos', error });
     }
 });
-
 
 // Inicializa o servidor
 app.listen(PORT, () => {
