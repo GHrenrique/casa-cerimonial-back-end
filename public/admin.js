@@ -1,7 +1,7 @@
 document.getElementById('planForm').addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    const planId = document.getElementById('planId').value; // ID do plano (caso seja edição)
+    const planId = document.getElementById('planId').value; 
     const title = document.getElementById('title').value;
     const services = document.getElementById('services').value.split(',').map(service => service.trim());
     const price = document.getElementById('price').value;
@@ -14,7 +14,7 @@ document.getElementById('planForm').addEventListener('submit', async function (e
         let response;
 
         if (planId) {
-            // Se houver ID, faz uma requisição PUT para editar
+           
             response = await fetch(`https://casa-cerimonial-back-end.vercel.app/admin/plans/${planId}`, {
                 method: 'PUT',
                 headers: {
@@ -23,7 +23,7 @@ document.getElementById('planForm').addEventListener('submit', async function (e
                 body: JSON.stringify(newPlan)
             });
         } else {
-            // Se não houver ID, faz uma requisição POST para criar um novo plano
+        
             response = await fetch('https://casa-cerimonial-back-end.vercel.app/admin/plans', {
                 method: 'POST',
                 headers: {
@@ -36,7 +36,7 @@ document.getElementById('planForm').addEventListener('submit', async function (e
         if (response.ok) {
             alert('Plano salvo com sucesso!');
             document.getElementById('planForm').reset();
-            document.getElementById('planId').value = ''; // Limpa o ID
+            document.getElementById('planId').value = '';
             fetchPlans();
         } else {
             alert('Erro ao salvar o plano');
@@ -46,7 +46,7 @@ document.getElementById('planForm').addEventListener('submit', async function (e
     }
 });
 
-// Função para buscar e exibir os planos cadastrados
+
 async function fetchPlans() {
     const response = await fetch('https://casa-cerimonial-back-end.vercel.app/admin/plans');
     const plans = await response.json();
